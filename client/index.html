@@ -1,32 +1,130 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <title>Practics</title>
-    <link rel="stylesheet" href="/src/css/styles.css" />
-  </head>
-  <body>
-    <header></header>
-    <main>
-      <h1>Calculadora de edad</h1>
-      <p>ingrese su año de nacimiento</p>
-      <input type="number" id="añoDeNacimiento" placeholder="Ej: 1990" />
-      <button onclick="mostrarEdad()">calcular edad</button>
-      <p id="resultado"></p>
-    </main>
-    <footer></footer>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-    <script src="src/js/main.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokéShop - Venta de Pokemones</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .pokemon-card img {
+      height: 140px;
+      object-fit: contain;
+      background: #f8f9fa;
+      padding: 10px;
+    }
+    .pokemon-card {
+      transition: transform 0.2s;
+    }
+    .pokemon-card:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">⚡ PokéShop</h2>
+    <span class="badge bg-danger fs-6" id="totalItems">0 pokemones</span>
+  </div>
+
+  <!-- Formulario -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3" id="formTitle">Agregar Pokémon</h5>
+      <form id="productForm">
+        <input type="hidden" id="productId">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="name" placeholder="Ej: Pikachu">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Tipo</label>
+            <select class="form-select" id="category">
+              <option value="Eléctrico">Eléctrico</option>
+              <option value="Fuego">Fuego</option>
+              <option value="Agua">Agua</option>
+              <option value="Planta">Planta</option>
+              <option value="Psíquico">Psíquico</option>
+              <option value="Siniestro">Siniestro</option>
+              <option value="Dragón">Dragón</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Precio</label>
+            <input type="number" class="form-control" id="price" placeholder="100" min="0">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Stock</label>
+            <input type="number" class="form-control" id="stock" placeholder="0" min="0">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Imagen URL</label>
+            <input type="url" class="form-control" id="image" placeholder="https://...">
+          </div>
+          <div class="col-md-1 d-grid">
+            <label class="form-label">&nbsp;</label>
+            <button type="submit" class="btn btn-danger">Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Buscador -->
+  <div class="mb-4">
+    <input type="text" class="form-control" id="searchInput" placeholder="🔍 Buscar por nombre o tipo...">
+  </div>
+
+<!-- Filtros manuales -->
+<div class="row g-2 mb-3">
+  <div class="col-md-4">
+    <select class="form-select" id="filterTipo">
+      <option value="Todos">Todos los tipos</option>
+      <option value="Eléctrico">Eléctrico</option>
+      <option value="Fuego">Fuego</option>
+      <option value="Agua">Agua</option>
+      <option value="Planta">Planta</option>
+      <option value="Psíquico">Psíquico</option>
+      <option value="Siniestro">Siniestro</option>
+      <option value="Dragón">Dragón</option>
+      <option value="Normal">Normal</option>
+      <option value="Hada">Hada</option>
+      <option value="Lucha">Lucha</option>
+      <option value="Veneno">Veneno</option>
+      <option value="Tierra">Tierra</option>
+      <option value="Volador">Volador</option>
+      <option value="Roca">Roca</option>
+      <option value="Bicho">Bicho</option>
+      <option value="Hielo">Hielo</option>
+      <option value="Acero">Acero</option>
+      <option value="Fantasma">Fantasma</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <select class="form-select" id="filterSort">
+      <option value="id-asc">ID: Menor a Mayor</option>
+      <option value="name-asc">Nombre A-Z</option>
+      <option value="price-asc">Precio: Menor a Mayor</option>
+      <option value="price-desc">Precio: Mayor a Menor</option>
+      <option value="stock-asc">Stock: Menor a Mayor</option>
+    </select>
+  </div>
+  <div class="col-md-4 d-grid">
+    <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">Limpiar filtros</button>
+  </div>
+</div>
+
+<!-- Grid de cards -->
+<div class="row g-4" id="productTable"></div>
+  <!-- Grid de cards -->
+  <div class="row g-4" id="productTable">
+    <!-- Las cards se generan con JS -->
+  </div>
+</div>
+
+<script src="/src/js/main.js"></script>
+
+</body>
 </html>
